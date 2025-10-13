@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
-          path: dist/asp-utn-angular-integrador/browser
+          path: dist/asap-utn-angular-integrador/browser
   
   deploy:
     needs: build
