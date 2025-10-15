@@ -1,12 +1,37 @@
+<section class="my-6 flex flex-col gap-12">
+  <div>
+    <h2 class="text-3xl font-bold mb-4 px-6">Trending Movies</h2>
+    <ul class="flex overflow-x-auto gap-6 px-6 pb-4 snap-x snap-mandatory">
+      @for (movie of movies; track movie.id) {
+        @if (isMovie(movie)) {
+        <li class="card text-center min-w-[250px] snap-center">
+          <a [routerLink]="['/movies', movie.id]">
+            <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" [alt]="movie.title"
+              class="w-full h-[400px] object-cover rounded-lg shadow-md" />
+          </a>
+          <h2 class="mt-2 text-lg font-medium">{{ movie.title }}</h2>
+          <p class="text-sm text-gray-500">{{ movie.release_date }}</p>
+        </li>
+        }
+      }
+    </ul>
+  </div>
 
-
-<section class="my-6 px-6">
-  <ul class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-6 justify-center">
-    @for (movie of movies; track movie) {
-    <li class="text-center">
-      <div class="h-40 w-full bg-blue-400 rounded-lg shadow-md"></div>
-      <h2 class="mt-2 text-lg font-medium">{{ movie.title }}</h2>
-    </li>
-    }
-  </ul>
+  <div>
+    <h2 class="text-3xl font-bold mb-4 px-6">Trending TV Shows</h2>
+    <ul class="flex overflow-x-auto gap-6 px-6 pb-4 snap-x snap-mandatory">
+      @for (movie of movies; track movie.id) {
+        @if (isTV(movie)) {
+        <li class="card text-center min-w-[250px] snap-center">
+          <a [routerLink]="['/tv-shows', movie.id]">
+            <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" [alt]="movie.name"
+              class="w-full h-[400px] object-cover rounded-lg shadow-md" />
+          </a>
+          <h2 class="mt-2 text-lg font-medium">{{ movie.name }}</h2>
+          <p class="text-sm text-gray-500">{{ movie.first_air_date }}</p>
+        </li>
+        }
+      }
+    </ul>
+  </div>
 </section>
