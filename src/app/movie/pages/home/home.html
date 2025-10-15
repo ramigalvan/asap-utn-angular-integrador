@@ -1,4 +1,9 @@
-<section class="p-6 text-center">
-  <h1 class="text-3xl font-bold">🏠 Bienvenido al Home</h1>
+
+<!-- TODO: tipear algo en el app-search, luego mandar ese input a un service -->
+<app-search (search)="onSearch($event)"/>
+<section class="p-6 text-start">
+  <h1 class="text-3xl font-bold">Bienvenido al Home</h1>
 </section>
-<app-movie-grid/>
+
+<!-- TODO: el resultado del tipeo en el input, debera ser la entrada para el app-movie-grid -->
+<app-movie-grid [movies]="movies()"/>
