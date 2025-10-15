@@ -1,0 +1,35 @@
+@if (loading()) {
+  <section class="p-8 text-center"><p class="text-xl">Cargando detalles de la película...</p></section>
+} @else if (movie()) {
+  <section class="details-container p-8 max-w-4xl mx-auto bg-gray-900 text-white rounded-lg shadow-2xl mt-8">
+    <div class="md:flex gap-8">
+      <div class="flex-shrink-0 mb-6 md:mb-0">
+        <img
+          [src]="'https://image.tmdb.org/t/p/w500' + movie()!.poster_path"
+          [alt]="movie()!.title"
+          class="w-full h-auto max-w-xs md:max-w-none rounded-lg shadow-xl object-cover"
+        />
+      </div>
+
+      <div class="flex-grow">
+        <h1 class="text-5xl font-extrabold mb-4">{{ movie()!.title }}</h1>
+        <p class="text-xl text-gray-400 mb-6">
+          Película | Estreno: {{ movie()!.release_date }}
+        </p>
+        
+        <h2 class="text-2xl font-semibold mb-2 text-cyan-400">Sinopsis</h2>
+        <p class="text-lg mb-8 leading-relaxed">
+          {{ movie()!.overview }}
+        </p>
+
+        <div class="grid grid-cols-2 gap-4 text-lg">
+          </div>
+      </div>
+    </div>
+  </section>
+} @else {
+  <section class="p-8 text-center"><p class="text-xl text-red-500">No se encontraron detalles para esta película.</p></section>
+}
+<div class="p-8 max-w-4xl mx-auto">
+    <a routerLink="/" class="text-cyan-400 hover:text-cyan-300 transition duration-150">← Volver al Home</a>
+</div>
