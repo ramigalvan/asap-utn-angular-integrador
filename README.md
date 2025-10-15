@@ -24,5 +24,8 @@ ng build
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
 ## Additional Resources
+- [API de TMBD](https://www.themoviedb.org/)
+- [Fuente de referencia para el diseño de la pagina](https://www.frontendmentor.io/challenges/entertainment-web-app-J-UhgAW1X)
 - [Tutorial para hacer deploy](https://youtu.be/aRmsXQibyEY?si=MBrmzoN9iB1g518D)
 - [Tutorial Referencia 1]()
+- 

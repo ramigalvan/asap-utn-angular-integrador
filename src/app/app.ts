@@ -7,7 +7,7 @@ import { Search } from "./movie/components/search/search";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule, TopNav, Search],
+  imports: [RouterOutlet, FormsModule, TopNav],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

@@ -1,0 +1,431 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/2OvpmWYrsv8eMyV3AAqhoMnzMF.jpg",
+      "id": 533533,
+      "title": "TRON: Ares",
+      "original_title": "TRON: Ares",
+      "overview": "La historia de Ares, un programa muy sofisticado que se envía desde el mundo digital al mundo real en una misión peligrosa y que va a representar el primer encuentro de la humanidad con seres creados por la IA.",
+      "poster_path": "/qShQABLVRMZKnv5mWOPXWniBeB3.jpg",
+      "media_type": "movie",
+      "original_language": "en",
+      "genre_ids": [
+        878,
+        12,
+        28
+      ],
+      "popularity": 163.8299,
+      "release_date": "2025-10-08",
+      "video": false,
+      "vote_average": 6.493,
+      "vote_count": 206
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/9IHZeCusOd7RUaQpUrQJlKqjsUZ.jpg",
+      "id": 1290879,
+      "title": "La mujer del camarote 10",
+      "original_title": "The Woman in Cabin 10",
+      "overview": "A bordo de un lujoso yate por motivos de trabajo, una periodista ve como alguien cae al mar. Pero cuando nadie la cree, decide arriesgar su propia vida para descubrir la verdad.",
+      "poster_path": "/lUJIBUjEab71fJ8U9gs0NouUJ18.jpg",
+      "media_type": "movie",
+      "original_language": "en",
+      "genre_ids": [
+        9648,
+        53,
+        80
+      ],
+      "popularity": 188.6798,
+      "release_date": "2025-10-09",
+      "video": false,
+      "vote_average": 6.126,
+      "vote_count": 219
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/9DYFYhmbXRGsMhfUgXM3VSP9uLX.jpg",
+      "id": 1038392,
+      "title": "Expediente Warren: El último rito",
+      "original_title": "The Conjuring: Last Rites",
+      "overview": "Los investigadores de lo paranormal Ed y Lorraine Warren se enfrentan a un último caso aterrador en el que están implicadas entidades misteriosas a las que deben enfrentarse.",
+      "poster_path": "/qdoqogLNR6myoRrxYFxF4UTkFne.jpg",
+      "media_type": "movie",
+      "original_language": "en",
+      "genre_ids": [
+        27
+      ],
+      "popularity": 495.5964,
+      "release_date": "2025-09-03",
+      "video": false,
+      "vote_average": 6.951,
+      "vote_count": 945
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/cm2oUAPiTE1ERoYYOzzgloQw4YZ.jpg",
+      "id": 286801,
+      "name": "Monstruo: La historia de Ed Gein",
+      "original_name": "Monster: The Ed Gein Story",
+      "overview": "La impactante historia real de Ed Gein, el infame asesino y profanador de tumbas que sirvió de inspiración para numerosas películas emblemáticas de Hollywood sobre asesinos.",
+      "poster_path": "/2RVFksm4DF17XZSXMVbNh1qDSOr.jpg",
+      "media_type": "tv",
+      "original_language": "en",
+      "genre_ids": [
+        18,
+        80
+      ],
+      "popularity": 285.2713,
+      "first_air_date": "2025-10-03",
+      "vote_average": 7.498,
+      "vote_count": 208,
+      "origin_country": [
+        "US"
+      ]
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/ScaVfT5IkwVC3Edhmxqyl0GbK0.jpg",
+      "id": 205715,
+      "name": "Generación V",
+      "original_name": "Gen V",
+      "overview": "En la única universidad para superhéroes de Estados Unidos, los estudiantes superdotados ponen a prueba sus límites morales, compitiendo por la clasificación más alta de la universidad y la oportunidad de unirse a Los Siete, el equipo de élite de superhéroes de Vought International. Cuando los oscuros secretos de la escuela salen a la luz, deben decidir en qué tipo de héroes quieren convertirse.",
+      "poster_path": "/fLJzwWk28vRrNQIvIXUSU5YBdT5.jpg",
+      "media_type": "tv",
+      "original_language": "en",
+      "genre_ids": [
+        10759,
+        18,
+        10765
+      ],
+      "popularity": 83.3859,
+      "first_air_date": "2023-09-28",
+      "vote_average": 7.713,
+      "vote_count": 1182,
+      "origin_country": [
+        "US"
+      ]
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/4QXRStvIJHsHLUf6hr7aweMX7em.jpg",
+      "id": 7451,
+      "title": "xXx",
+      "original_title": "xXx",
+      "overview": "Xander Cage es XXX, un antiguo ganador de X-Games y atleta profesional de deportes de extremo, que sobrevive vendiendo videos de sus increíbles hazañas, las cuales hacen emitir adrenalina por todo el cuerpo. Pero después de incontables encuentros con la ley, su mundo está a punto de tomar un rumbo aún más extremo... Porque Xander no sabe que ha sido \"espiado\" por Augustus Gibbons, un agente veterano de la Agencia Nacional de Seguridad que se encuentra en una desesperada situación en la distante ciudad de Praga, en donde su operativo secreto ha sido asesinado por una pandilla de mafiosos con un estilo muy propio, que se llaman así mismos Anarchy 99, encabezados por el brutal ex-Comandante del Ejército Ruso Yorgi.",
+      "poster_path": "/gd4hRY3pFXRY7YVbMdVBpnKV7wC.jpg",
+      "media_type": "movie",
+      "original_language": "en",
+      "genre_ids": [
+        28,
+        12,
+        53,
+        80
+      ],
+      "popularity": 105.8344,
+      "release_date": "2002-08-09",
+      "video": false,
+      "vote_average": 5.965,
+      "vote_count": 4585
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/aJcUU3LMlqMKBi8L3eaxGfAbd4G.jpg",
+      "id": 110492,
+      "name": "El Pacificador",
+      "original_name": "Peacemaker",
+      "overview": "La historia de origen de Peacemaker, un hombre que cree en la paz a cualquier precio, no importa cuántas personas tenga que matar para conseguirla.",
+      "poster_path": "/t7NakS7qZekeXSocv6jcyd5on7A.jpg",
+      "media_type": "tv",
+      "original_language": "en",
+      "genre_ids": [
+        10759,
+        10765,
+        18
+      ],
+      "popularity": 196.0615,
+      "first_air_date": "2022-01-13",
+      "vote_average": 8.2,
+      "vote_count": 3106,
+      "origin_country": [
+        "US"
+      ]
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/GNeuKnbZRZj5JhKfnJOPyKJuVA.jpg",
+      "id": 1197137,
+      "title": "Black Phone 2",
+      "original_title": "Black Phone 2",
+      "overview": "Secuela de \"The Black Phone\".",
+      "poster_path": "/q2G2EsnMaDzcWJetfpxnqMu4smE.jpg",
+      "media_type": "movie",
+      "original_language": "en",
+      "genre_ids": [
+        27,
+        53
+      ],
+      "popularity": 43.7477,
+      "release_date": "2025-10-15",
+      "video": false,
+      "vote_average": 6.9,
+      "vote_count": 5
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/3AXLSxMuqyZt8HyrKKfrcJtkswD.jpg",
+      "id": 63926,
+      "name": "One Punch Man",
+      "original_name": "ワンパンマン",
+      "overview": "La historia tiene lugar en una de las metrópolis ficticias de la Tierra, la Ciudad Z en Japón. El mundo está lleno de extraños monstruos que misteriosamente aparecen y causan muchos desastres. Saitama, el protagonista, es un poderoso superhéroe que derrota fácilmente a los monstruos u otros villanos con un único golpe. Debido a esto, Saitama ha encontrado aburrida su fuerza y siempre está tratando de encontrar rivales más poderosos que le puedan igualar.",
+      "poster_path": "/a8BknzvFVK5EZ83rKg1a83iwaj0.jpg",
+      "media_type": "tv",
+      "original_language": "ja",
+      "genre_ids": [
+        16,
+        35,
+        10759,
+        10765
+      ],
+      "popularity": 173.3376,
+      "first_air_date": "2015-10-05",
+      "vote_average": 8.396,
+      "vote_count": 3847,
+      "origin_country": [
+        "JP"
+      ]
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/7FnmZCAjAwaHydgpjFKnu11MoWs.jpg",
+      "id": 617126,
+      "title": "Los Cuatro Fantásticos: Primeros pasos",
+      "original_title": "The Fantastic 4: First Steps",
+      "overview": "Con un mundo retrofuturista inspirado en los años 60 como telón de fondo, la Primera Familia de Marvel deberá hacer frente a su mayor desafío hasta la fecha. Obligados a buscar el equilibrio entre su papel de héroes y sus fuertes vínculos familiares, tendrán que defender la Tierra de un hambriento dios espacial llamado Galactus y su intrigante heraldo, Estela Plateada.",
+      "poster_path": "/ckfiXWGEMWrUP53cc6QyHijLlhl.jpg",
+      "media_type": "movie",
+      "original_language": "en",
+      "genre_ids": [
+        878,
+        12
+      ],
+      "popularity": 203.8354,
+      "release_date": "2025-07-23",
+      "video": false,
+      "vote_average": 7.13,
+      "vote_count": 1978
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/2yo2k8CmgZxfBQYAZ8TnHIYzEme.jpg",
+      "id": 1072699,
+      "title": "Furioza 2",
+      "original_title": "Druga Furioza",
+      "overview": "A resultas de un asesinato, el nuevo líder de Furioza, Golden, reclama el poder de su violenta banda de ultras y adopta un nuevo enfoque para actuar en el extranjero.",
+      "poster_path": "/yOLnV1lM3NuMsgYwIhz454fQRgt.jpg",
+      "media_type": "movie",
+      "original_language": "pl",
+      "genre_ids": [
+        28,
+        80,
+        53
+      ],
+      "popularity": 1.9206,
+      "release_date": "2025-10-15",
+      "video": false,
+      "vote_average": 7,
+      "vote_count": 1
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/538U9snNc2fpnOmYXAPUh3zn31H.jpg",
+      "id": 575265,
+      "title": "Misión: Imposible - Sentencia final",
+      "original_title": "Mission: Impossible - The Final Reckoning",
+      "overview": "El agente Ethan Hunt continúa su misión de impedir que Gabriel controle el tecnológicamente omnipotente programa de IA conocido como \"the Entity\".",
+      "poster_path": "/haOjJGUV00dKlZaJWgjM1UD1cJV.jpg",
+      "media_type": "movie",
+      "original_language": "en",
+      "genre_ids": [
+        28,
+        12,
+        53
+      ],
+      "popularity": 125.7549,
+      "release_date": "2025-05-17",
+      "video": false,
+      "vote_average": 7.267,
+      "vote_count": 1917
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/5XNQBqnBwPA9yT0jZ0p3s8bbLh0.jpg",
+      "id": 157336,
+      "title": "Interstellar",
+      "original_title": "Interstellar",
+      "overview": "Un grupo de exploradores hacen uso de un agujero de gusano recientemente descubierto para superar las limitaciones de los viajes espaciales tripulados y vencer las inmensas distancias que tiene un viaje interestelar.",
+      "poster_path": "/fbUwSqYIP0isCiJXey3staY3DNn.jpg",
+      "media_type": "movie",
+      "original_language": "en",
+      "genre_ids": [
+        12,
+        18,
+        878
+      ],
+      "popularity": 64.2,
+      "release_date": "2014-11-05",
+      "video": false,
+      "vote_average": 8.5,
+      "vote_count": 38042
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/k6isq3hmOKWNy1DQaicF9MOsjVY.jpg",
+      "id": 270734,
+      "name": "Muerte en la familia Murdaugh",
+      "original_name": "Murdaugh: Death in the Family",
+      "overview": "Maggie y Alex disfrutan de una vida de lujo y privilegio como miembros de una de las dinastías legales más poderosas de Carolina del Sur. Pero cuando su hijo Paul se ve involucrado en un accidente náutico mortal, la familia se enfrenta a una prueba sin precedentes. A medida que salen a la luz los detalles y surgen nuevos desafíos, las conexiones de la familia con varias muertes misteriosas plantean preguntas que amenazan todo lo que Maggie y Alex aprecian.",
+      "poster_path": "/2MFYwV0QrUSFvykeRhrQFhhp4DB.jpg",
+      "media_type": "tv",
+      "original_language": "en",
+      "genre_ids": [
+        18,
+        80
+      ],
+      "popularity": 2.7427,
+      "first_air_date": "2025-10-15",
+      "vote_average": 0,
+      "vote_count": 0,
+      "origin_country": [
+        "US"
+      ]
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/2ha0wAOqrUcLScStWQcgeOOXapQ.jpg",
+      "id": 1241921,
+      "title": "Un gran viaje atrevido y maravilloso",
+      "original_title": "A Big Bold Beautiful Journey",
+      "overview": "Sarah y David son dos solteros que se conocen en la boda de un amigo común y, pronto, por un sorprendente giro del destino, se embarcan en Un gran viaje atrevido y maravilloso, una aventura divertida, fantástica y arrolladora en la que reviven juntos momentos importantes de sus respectivos pasados, descubriendo cómo han llegado a donde están.",
+      "poster_path": "/pGu1PuA2kv4xOMgGrzTONfDWOJd.jpg",
+      "media_type": "movie",
+      "original_language": "en",
+      "genre_ids": [
+        10749,
+        14,
+        18
+      ],
+      "popularity": 43.081,
+      "release_date": "2025-09-17",
+      "video": false,
+      "vote_average": 6.376,
+      "vote_count": 97
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/Q2OajDi2kcO6yErb1IAyVDTKMs.jpg",
+      "id": 1078605,
+      "title": "Weapons",
+      "original_title": "Weapons",
+      "overview": "Cuando todos los alumnos de una misma clase, salvo uno, desaparecen misteriosamente la misma noche y exactamente a la misma hora, la pequeña ciudad donde viven se pregunta quién o qué está detrás de su desaparición.",
+      "poster_path": "/nYqEQ3ltw0hHc1kBaNWr7Rb8WNZ.jpg",
+      "media_type": "movie",
+      "original_language": "en",
+      "genre_ids": [
+        27,
+        9648
+      ],
+      "popularity": 99.6984,
+      "release_date": "2025-08-04",
+      "video": false,
+      "vote_average": 7.398,
+      "vote_count": 1881
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/zpEWFNqoN8Qg1SzMMHmaGyOBTdW.jpg",
+      "id": 1054867,
+      "title": "Una batalla tras otra",
+      "original_title": "One Battle After Another",
+      "overview": "Cuando su principal enemigo resurge después de 16 años, una banda de ex revolucionarios se pone de nuevo en contacto para rescatar a la hija de uno de los suyos, encarnado por Leonardo DiCaprio. Adaptación de la novela 'Vineland', de Thomas Pynchon (1990), sobre los movimientos radicales de los años sesenta.",
+      "poster_path": "/zwxROLIUeEr6eFITwworjcXLAk4.jpg",
+      "media_type": "movie",
+      "original_language": "en",
+      "genre_ids": [
+        28,
+        53,
+        80
+      ],
+      "popularity": 99.0387,
+      "release_date": "2025-09-23",
+      "video": false,
+      "vote_average": 7.803,
+      "vote_count": 833
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/sSaUmM4bnZJ7PW5dlyRi7iONB65.jpg",
+      "id": 1010756,
+      "title": "Strangers: Capítulo 2",
+      "original_title": "The Strangers: Chapter 2",
+      "overview": "De camino a su luna de miel, el vehículo de una pareja se avería, obligándoles a refugiarse en un remoto Airbnb. Al caer la noche, tres desconocidos enmascarados los aterrorizan hasta el amanecer.",
+      "poster_path": "/fSRRH7UasrE6q240H00dww3vE1c.jpg",
+      "media_type": "movie",
+      "original_language": "en",
+      "genre_ids": [
+        27,
+        53
+      ],
+      "popularity": 55.417,
+      "release_date": "2025-09-25",
+      "video": false,
+      "vote_average": 5.5,
+      "vote_count": 27
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/tppoXtkKVh26oEsMdkIGmUqdgVL.jpg",
+      "id": 221079,
+      "name": "The Last Frontier: Conspiración en Alaska",
+      "original_name": "The Last Frontier",
+      "overview": "Cuando un avión que transporta presos se estrella en una remota zona salvaje de Alaska y docenas de reclusos violentos quedan libres, el único policía de la región debe proteger el pueblo que juró mantener a salvo.",
+      "poster_path": "/1ExF0JVOrWGeoupDDQcc5MD9pnV.jpg",
+      "media_type": "tv",
+      "original_language": "en",
+      "genre_ids": [
+        18
+      ],
+      "popularity": 151.7065,
+      "first_air_date": "2025-10-09",
+      "vote_average": 8,
+      "vote_count": 25,
+      "origin_country": [
+        "US"
+      ]
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/eGX66zonvc4bXg3rM08RUxdYSDx.jpg",
+      "id": 1061474,
+      "title": "Superman",
+      "original_title": "Superman",
+      "overview": "En un mundo que ha perdido la fe en la bondad, Superman lucha por reconciliar su herencia kryptoniana con los valores humanos que moldearon su carácter. Criado en la Tierra, representa la verdad, la justicia y el estilo americano, pero debe enfrentarse a un mundo cínico que cuestiona sus ideales. Entre el deber de proteger a la humanidad y la búsqueda de su identidad, Superman demuestra que la esperanza y la bondad nunca pasan de moda, incluso en los tiempos más oscuros, inspirando a otros a creer en un futuro mejor.",
+      "poster_path": "/fvUJb08yatV2b3NUSwuYdQKYoFd.jpg",
+      "media_type": "movie",
+      "original_language": "en",
+      "genre_ids": [
+        878,
+        12,
+        28
+      ],
+      "popularity": 120.304,
+      "release_date": "2025-07-09",
+      "video": false,
+      "vote_average": 7.4,
+      "vote_count": 3591
+    }
+  ],
+  "total_pages": 500,
+  "total_results": 10000
+}
