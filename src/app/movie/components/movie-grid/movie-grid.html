@@ -11,6 +11,13 @@
           </a>
           <h2 class="mt-2 text-lg font-medium">{{ movie.title }}</h2>
           <p class="text-sm text-gray-500">{{ movie.release_date }}</p>
+          <button (click)="toggleFavorite(movie.id.toString())">
+            @if (isFavorite(movie.id.toString())) {
+            <span>Remove from Favorites</span>
+            } @else {
+            <span>Add to Favorites</span>
+            }
+          </button>
         </li>
         }
       }
@@ -29,6 +36,13 @@
           </a>
           <h2 class="mt-2 text-lg font-medium">{{ movie.name }}</h2>
           <p class="text-sm text-gray-500">{{ movie.first_air_date }}</p>
+          <button (click)="toggleFavorite(movie.id.toString())">
+            @if (isFavorite(movie.id.toString())) {
+            <span>Remove from Favorites</span>
+            } @else {
+            <span>Add to Favorites</span>
+            }
+          </button>
         </li>
         }
       }

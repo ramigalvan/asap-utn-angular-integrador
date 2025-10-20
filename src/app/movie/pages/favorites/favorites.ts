@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MovieGrid } from "../../components/movie-grid/movie-grid";
+import { FavoritesService } from '../../services/favorites';
 
 @Component({
   selector: 'app-favorites',
@@ -7,6 +8,8 @@ import { MovieGrid } from "../../components/movie-grid/movie-grid";
   templateUrl: './favorites.html',
   styleUrl: './favorites.css'
 })
-export class Favorites {
+export class Favorites  {
+  favoritesService = inject(FavoritesService)
+  favoriteIds: string[] = this.favoritesService.getFavorites()
 
 }

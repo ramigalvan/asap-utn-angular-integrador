@@ -1,4 +1,9 @@
 <section class="p-6 text-start">
   <h1 class="text-3xl font-bold">Favoritos</h1>
+  <ul>
+    @for (id of favoriteIds; track id) {
+    <li>{{ id }}</li>
+    }
+  </ul>
 </section>
-<app-movie-grid/>
+<!-- <app-movie-grid/> -->
