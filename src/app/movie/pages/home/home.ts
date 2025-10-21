@@ -11,9 +11,11 @@ import { TrendingItem } from '../../models/trending';
   styleUrl: './home.css'
 })
 export class Home implements OnInit {
-  movies = signal<TrendingItem[]>([])
-  movieService = inject(MovieService)
-
+  movies = signal<TrendingItem[]>([]);
+  movieService = inject(MovieService);
+  searchResults: TrendingItem[] = [];
+  noSearchResults = signal<boolean>(false);
+  searchQuery = signal<string>('');
 
   ngOnInit(): void {
     this.movieService.getTrendingByAllWeek()
@@ -24,14 +26,13 @@ export class Home implements OnInit {
       })
   }
 
-  onSearch(query: string) {
-    // if (!query) {
-    //   this.movieService.getAll()
-    //     .subscribe(data => this.movies.set(data));
-    // } else {
-    //   this.movieService.getByTitle(query)
-    //     .subscribe(data => this.movies.set(data));
-    // }
+  onSearch(query: TrendingItem[]): void {
+    this.searchResults = query;
   }
+
+  onNoResults(noResults: boolean): void {
+    this.noSearchResults.set(noResults);
+  }
+
 
 }

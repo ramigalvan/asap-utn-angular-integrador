@@ -1,32 +1,46 @@
 import { Injectable } from '@angular/core';
+import { TrendingItem } from '../models/trending';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoritesService {
-  private readonly localStorageKey = 'favorites';
+  private readonly STORAGE_KEY = 'favorites';
+  private favoritesSubject = new BehaviorSubject<TrendingItem[]>([]);
 
-  getFavorites(): string[]{
-    const favorites = localStorage.getItem(this.localStorageKey);
-    return favorites ? JSON.parse(favorites) : [];
+  constructor() {
+    this.loadFavorites();
   }
 
-  addFavorite(id: string): void {
-    const favorites = this.getFavorites()
-    if(!favorites.includes(id)){
-      favorites.push(id);
-      localStorage.setItem(this.localStorageKey, JSON.stringify(favorites));
+  private loadFavorites(): void {
+    const stored = localStorage.getItem(this.STORAGE_KEY);
+    if (stored) {
+      this.favoritesSubject.next(JSON.parse(stored));
     }
   }
 
-  removeFavorite(id: string): void {
-    let favorites = this.getFavorites();
-    favorites = favorites.filter(favId => favId !== id);
-    localStorage.setItem(this.localStorageKey, JSON.stringify(favorites));
+  getFavorites(): Observable<TrendingItem[]> {
+    return this.favoritesSubject.asObservable();
   }
 
-  isFavorite(id: string): boolean {
-    const favorites = this.getFavorites()
-    return favorites.includes(id)
+  addToFavorites(item: TrendingItem): void {
+    const currentFavorites = this.favoritesSubject.value;
+    if (!currentFavorites.find(f => f.id === item.id)) {
+      const newFavorites = [...currentFavorites, item];
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(newFavorites));
+      this.favoritesSubject.next(newFavorites);
+    }
+  }
+
+  removeFromFavorites(id: number): void {
+    const currentFavorites = this.favoritesSubject.value;
+    const newFavorites = currentFavorites.filter(item => item.id !== id);
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(newFavorites));
+    this.favoritesSubject.next(newFavorites);
+  }
+
+  isFavorite(id: number): boolean {
+    return this.favoritesSubject.value.some(item => item.id === id);
   }
 }

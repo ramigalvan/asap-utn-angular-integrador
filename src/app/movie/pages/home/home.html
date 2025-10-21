@@ -1,9 +1,25 @@
-
 <!-- TODO: tipear algo en el app-search, luego mandar ese input a un service -->
-<app-search (search)="onSearch($event)"/>
-<section class="p-6 text-start">
-  <h1 class="text-3xl font-bold">Bienvenido al Home</h1>
-</section>
+<app-search 
+  searchType="all" 
+  (searchResults)="onSearch($event)"
+  (noResults)="onNoResults($event)"
+  (queryChange)="searchQuery.set($event)"
+/>
 
 <!-- TODO: el resultado del tipeo en el input, debera ser la entrada para el app-movie-grid -->
-<app-movie-grid [movies]="movies()"/>
+@if (noSearchResults() && searchQuery()) {
+  <div class="p-6 text-center">
+    <p class="text-xl text-gray-600">
+      No se encontraron resultados para "{{ searchQuery() }}".
+    </p>
+    <p class="text-gray-500 mt-2">
+      Intenta con otras palabras clave o verifica la ortografía.
+    </p>
+  </div>
+} @else {
+  <app-movie-grid 
+    [movies]="searchResults.length ? searchResults : movies()"
+    mediaType="all"
+    [title]="searchResults.length ? 'Resultados de búsqueda' : 'Trending Movies & TV Shows'"
+  />
+}

@@ -1,5 +1,7 @@
-<app-search/>
+<app-search searchType="movie" (searchResults)="onSearch($event)"/>
 <section class="p-6 text-start">
-  <h1 class="text-3xl font-bold">Movies</h1>
 </section>
-<app-movie-grid/>
+<app-movie-grid [movies]="searchResults.length ? searchResults : movies()"
+mediaType="movie"
+title="Movies"
+/>

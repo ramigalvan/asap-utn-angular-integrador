@@ -40,6 +40,27 @@ export class MovieService {
     );
   }
 
+   searchItems(query: string, mediaType?: 'all' | 'movie' | 'tv'): Observable<TrendingItem[]> {
+    return this.getTrendingByAllWeek().pipe(
+      map(response => {
+        const searchTerm = query.toLowerCase();
+        return response.results.filter(item => {
+          // Si se especifica un tipo de medio, filtrar por él
+          if (mediaType && mediaType !== 'all' && item.media_type !== mediaType) {
+            return false;
+          }
+
+          // Búsqueda por título/nombre
+          if ('title' in item) {
+            return item.title.toLowerCase().includes(searchTerm);
+          } else {
+            return item.name.toLowerCase().includes(searchTerm);
+          }
+        });
+      })
+    );
+  }
+  
   // getByTitle(query: string): Observable<Movie[]> {
   //   return this.getAll().pipe(
   //     map(movies =>

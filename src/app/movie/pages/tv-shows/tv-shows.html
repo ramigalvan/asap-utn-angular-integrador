@@ -1,9 +1,7 @@
 
 <!-- TODO: tipear algo en el app-search, luego mandar ese input a un service -->
-<app-search/>
-<section class="p-6 text-start">
-  <h1 class="text-3xl font-bold">TV-SHOWS</h1>
-</section>
+<app-search searchType="tv" (searchResults)="onSearch($event)"/>
 
 <!-- TODO: el resultado del tipeo en el input, debera ser la entrada para el app-movie-grid -->
-<app-movie-grid/>
+<app-movie-grid [movies]="searchResults.length ? searchResults : movies()" 
+mediaType="tv" title="TV-Shows"/>

@@ -1,16 +1,25 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { TrendingItem, TrendingMovie, TrendingTVShow } from '../../models/trending';
-import { RouterLink } from '@angular/router';
 import { FavoritesService } from '../../services/favorites';
+import { RouterLink } from '@angular/router';
+
 @Component({
   selector: 'app-movie-grid',
-  imports: [RouterLink],
   templateUrl: './movie-grid.html',
-  styleUrl: './movie-grid.css'
+  styleUrl: './movie-grid.css',
+  imports: [RouterLink]
 })
-export class MovieGrid  {
+export class MovieGrid {
   @Input() movies: TrendingItem[] = [];
-  favoritesService = inject(FavoritesService)
+  @Input() mediaType: 'all' | 'movie' | 'tv' = 'all';
+  @Input() title: string = 'Trending';
+  
+  favoritesService = inject(FavoritesService);
+
+  getFilteredItems(): TrendingItem[] {
+    if (this.mediaType === 'all') return this.movies;
+    return this.movies.filter(item => item.media_type === this.mediaType);
+  }
 
   isMovie(item: TrendingItem): item is TrendingMovie {
     return item.media_type === 'movie';
@@ -20,16 +29,15 @@ export class MovieGrid  {
     return item.media_type === 'tv';
   }
 
-  toggleFavorite(id: string): void {
-    if(this.favoritesService.isFavorite(id)){
-      this.favoritesService.removeFavorite(id)
-    }else{
-      this.favoritesService.addFavorite(id)
+  toggleFavorite(item: TrendingItem): void {
+    if (this.favoritesService.isFavorite(item.id)) {
+      this.favoritesService.removeFromFavorites(item.id);
+    } else {
+      this.favoritesService.addToFavorites(item);
     }
   }
 
-  isFavorite(id:string): boolean{
-    return this.favoritesService.isFavorite(id)
+  isFavorite(id: number): boolean {
+    return this.favoritesService.isFavorite(id);
   }
-
 }

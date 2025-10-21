@@ -1,9 +1,11 @@
-<section class="p-6 text-start">
-  <h1 class="text-3xl font-bold">Favoritos</h1>
-  <ul>
-    @for (id of favoriteIds; track id) {
-    <li>{{ id }}</li>
-    }
-  </ul>
+<section class="p-6">
+  
+  @if (favorites.length) {
+    <app-movie-grid 
+      [movies]="favorites"
+      title="My Favorite Movies & Shows"
+    />
+  } @else {
+    <p class="text-center text-gray-500">No favorites yet. Add some movies or TV shows to your favorites!</p>
+  }
 </section>
-<!-- <app-movie-grid/> -->
