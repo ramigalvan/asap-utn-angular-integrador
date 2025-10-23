@@ -34,6 +34,16 @@ jobs:
       - name: Install dependencies
         run: npm install
       
+      - name: Create environment.ts
+        run: |
+          mkdir -p src/environments
+          echo "export const environment = {
+            production: true,
+            apiUrl: 'https://api.themoviedb.org/3',
+            apiKey: '${{ vars.API_KEY }}',
+            debugMode: false
+          };" > src/environments/environment.ts
+
       - name: Build app
         run: npm run build
       
