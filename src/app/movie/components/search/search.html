@@ -1,41 +1,60 @@
-<div class="relative flex justify-center mt-6 z-auto"> 
-  <div class="w-full max-w-md"> 
-    <form class="flex gap-3" (submit)="$event.preventDefault()">
-      <input 
-        autocomplete="off"
-        type="text" 
-        placeholder="Search..." 
-        [(ngModel)]="query"
-        name="searchQuery"
-        (input)="onInputChange($event)"
-        (keyup.enter)="onSearch()"
-        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
-        >
-        <button 
-        type="button" 
-        (click)="onSearch()"
-        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-      >
-        Search
-      </button>
-    </form>
+<!-- search.html -->
+<div class="search-container" #searchContainer>
+  <div class="relative">
+    <input
+      type="text"
+      [(ngModel)]="query"
+      (input)="onSearchInput()"
+      (focus)="showResults = true"
+      (blur)="onBlur()"
+      placeholder="Search for movies or TV shows..."
+      class="search-input"
+    />
+    <button
+      (click)="onSearch()"
+      [disabled]="isLoading"
+      class="search-button"
+    >
+    @if (!isLoading) {
 
-    @if (showSuggestions && suggestions.length > 0) {
-      <div class="absolute z-10 w-max mt-1 bg-white rounded-lg shadow-lg"> 
-        <ul class="py-2">
-          @for (item of suggestions; track item.id) {
-            <li 
-              class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-              (click)="selectSuggestion(item)"
-            >
-              @if (isMovie(item)) {
-                {{ item.title }}
-              } @else {
-                {{ item.name }}
-              }
-            </li>
-          }
-        </ul>
+      <svg  class="search-icon" viewBox="0 0 24 24">
+        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+    }
+    @if (isLoading) {
+
+      <svg  class="loading-icon" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+      </svg>
+    }
+    </button>
+
+    <!-- Results Dropdown -->
+    @if (showResults && query) {
+      <div class="results-dropdown">
+        @if (isLoading) {
+          <div class="loading-message">Searching...</div>
+        } @else if (searchResults.length > 0) {
+          <div class="results-list">
+            @for (item of searchResults; track item.id) {
+              <div 
+                class="result-item"
+                (mousedown)="selectItem(item)"
+              >
+                <div class="result-title">{{ item.title || item.name }}</div>
+                <div class="result-subtitle">
+                  {{ item.media_type === 'movie' ? 'Movie' : 'TV Show' }}
+                  @if (item.release_date || item.first_air_date) {
+                    - {{ (item.release_date || item.first_air_date) | date:'mediumDate' }}
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        } @else if (query && !isLoading) {
+          <div class="no-results">No results found for "{{ query }}"</div>
+        }
       </div>
     }
   </div>

@@ -1,14 +1,21 @@
 // Tipo base común a películas y series
 export interface TrendingItemBase {
-  adult: boolean;
+    adult: boolean;
   backdrop_path: string | null;
+  genre_ids: number[];
   id: number;
-  overview: string;
-  poster_path: string | null;
   media_type: 'movie' | 'tv';
   original_language: string;
-  genre_ids: number[];
+  original_title?: string;
+  original_name?: string;
+  overview: string;
   popularity: number;
+  poster_path: string | null;
+  release_date?: string;
+  first_air_date?: string;
+  title?: string;
+  name?: string;
+  video: boolean;
   vote_average: number;
   vote_count: number;
 }
@@ -17,18 +24,14 @@ export interface TrendingItemBase {
 export interface TrendingMovie extends TrendingItemBase {
   media_type: 'movie';
   title: string;
-  original_title: string;
   release_date: string;
-  video: boolean;
 }
 
 // Series de TV
 export interface TrendingTVShow extends TrendingItemBase {
   media_type: 'tv';
   name: string;
-  original_name: string;
   first_air_date: string;
-  origin_country: string[];
 }
 
 // Unión para cualquier tipo de resultado

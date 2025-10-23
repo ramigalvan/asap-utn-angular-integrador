@@ -13,21 +13,55 @@ import { TrendingItem } from '../../models/trending';
 export class Home implements OnInit {
   movies = signal<TrendingItem[]>([]);
   movieService = inject(MovieService);
-  searchResults: TrendingItem[] = [];
+  searchResults: string = "";
   noSearchResults = signal<boolean>(false);
   searchQuery = signal<string>('');
-
+  isLoading = signal<boolean>(true);
+  error = signal<string | null>(null);
+  currentPage = signal<number>(1);
+  totalPages = signal<number>(1);
+  totalResults = signal<number>(0);
+  isSearching = signal<boolean>(false);
+  
   ngOnInit(): void {
-    this.movieService.getTrendingByAllWeek()
-      .subscribe({
-        next: (res) => (this.movies.set(res.results)),
-        error: (err) => console.error(err),
-
-      })
+    this.loadTrendingByWeek()
   }
 
-  onSearch(query: TrendingItem[]): void {
-    this.searchResults = query;
+  loadTrendingByWeek(page: number = 1): void{
+    this.isLoading.set(true);
+    this.error.set(null);
+    this.currentPage.set(page);
+
+    const request$ = this.isSearching()
+      ? this.movieService.searchItems(this.searchQuery(), 'movie', page)
+      : this.movieService.getTrendingByAllWeek(page);
+
+    request$.subscribe({
+      next: (response) => {
+        this.movies.set(response.results);
+        this.totalPages.set(response.total_pages);
+        this.totalResults.set(response.total_results);
+        this.isLoading.set(false);
+        window.scrollTo(0, 0);
+      },
+      error: (err) => {
+        console.error('Error loading movies:', err);
+        this.error.set('Failed to load movies. Please try again later.');
+        this.isLoading.set(false);
+      }
+    });
+  }
+
+  onSearch(query: string): void {
+    this.searchQuery.set(query);
+    this.isSearching.set(!!query);
+    this.loadTrendingByWeek(1);
+  }
+
+  onPageChange(page: number): void {
+    if (page >= 1 && page <= this.totalPages()) {
+      this.loadTrendingByWeek(page);
+    }
   }
 
   onNoResults(noResults: boolean): void {

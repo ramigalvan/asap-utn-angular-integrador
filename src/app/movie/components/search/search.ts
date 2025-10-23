@@ -1,88 +1,141 @@
-import { Component, EventEmitter, inject, Input, Output, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnDestroy, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TrendingItem, TrendingMovie } from '../../models/trending';
 import { MovieService } from '../../services/movie-service';
-import { CommonModule } from '@angular/common';
-import { Subject, debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
+import { CommonModule, DatePipe } from '@angular/common';
+import { Subject,  distinctUntilChanged, Subscription, switchMap, of } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
+
+export interface SearchResult {
+  id: number;
+  title?: string;
+  name?: string;
+  media_type: 'movie' | 'tv';
+  poster_path?: string | null;
+  release_date?: string;
+  first_air_date?: string;
+  vote_average?: number;
+}
 
 @Component({
   selector: 'app-search',
-  imports: [FormsModule, CommonModule],
+  standalone: true,
+  imports: [FormsModule, CommonModule, DatePipe],
   templateUrl: './search.html',
-  styleUrl: './search.css'
+  styleUrl: './search.css',
+  providers: [DatePipe]
 })
-export class Search implements OnInit, OnDestroy {
+export class Search implements OnInit, OnDestroy   {
   @Input() searchType: 'all' | 'movie' | 'tv' = 'all';
-  @Output() searchResults = new EventEmitter<TrendingItem[]>();
-  @Output() noResults = new EventEmitter<boolean>();
-  @Output() queryChange = new EventEmitter<string>();
-  
-  query = '';
-  suggestions: TrendingItem[] = [];
-  showSuggestions = false;
+  @Output() itemSelected = new EventEmitter<SearchResult>();
+  @ViewChild('searchContainer') searchContainer!: ElementRef;
+  @HostListener('document:click', ['$event'])
+
+  query: string = '';
+  searchResults: SearchResult[] = [];
+  showResults = false;
+  isLoading = false;
+
+
   
   private searchSubject = new Subject<string>();
-  private subscription: Subscription | null = null;
-  
-  movieService = inject(MovieService);
+  private searchSubscription?: Subscription;
+
+  constructor(
+    private movieService: MovieService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.subscription = this.searchSubject.pipe(
+    this.searchSubscription = this.searchSubject.pipe(
       debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe(query => {
-      if (query) {
-        this.movieService.searchItems(query, this.searchType)
-          .subscribe(results => {
-            this.suggestions = results.slice(0, 5); // Limitamos a 5 sugerencias
-            this.showSuggestions = true;
-          });
-      } else {
-        this.suggestions = [];
-        this.showSuggestions = false;
+      distinctUntilChanged(),
+      switchMap(query => {
+        if (!query.trim()) {
+          return of({ results: [] });
+        }
+        this.isLoading = true;
+        return this.movieService.searchMulti(query).pipe(
+          map(response => {
+            // Transform the response to ensure consistent data structure
+            return {
+              results: response.results.map(item => ({
+                ...item,
+                title: item.title || item.name,
+                release_date: item.release_date || item.first_air_date
+              }))
+            };
+          })
+        ).pipe(
+          // Handle errors
+          map(response => response),
+          // Hide loading state when done
+          map(response => {
+            this.isLoading = false;
+            return response;
+          })
+        );
+      })
+    ).subscribe({
+      next: (response) => {
+        this.searchResults = response.results;
+      },
+      error: (error) => {
+        console.error('Search error:', error);
+        this.isLoading = false;
+        this.searchResults = [];
       }
     });
   }
 
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
-  }
-
-  onInputChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.query = input.value;
-    this.queryChange.emit(this.query);
-    this.searchSubject.next(this.query);
-  }
-
-  onSearch() {
-    if (this.query) {
-      this.movieService.searchItems(this.query, this.searchType)
-        .subscribe({
-          next: (results) => {
-            this.searchResults.emit(results);
-            this.noResults.emit(results.length === 0);
-            this.showSuggestions = false;
-          },
-          error: (error) => {
-            console.error('Error during search:', error);
-            this.searchResults.emit([]);
-            this.noResults.emit(true);
-          }
-        });
+  onSearchInput(): void {
+    const query = this.query.trim();
+    if (query) {
+      this.searchSubject.next(query);
+      this.showResults = true;
     } else {
-      this.searchResults.emit([]);
-      this.noResults.emit(false);
+      this.searchResults = [];
+      this.showResults = false;
     }
   }
 
-  selectSuggestion(item: TrendingItem) {
-    this.query = 'title' in item ? item.title : item.name;
-    this.showSuggestions = false;
-    this.searchResults.emit([item]);
-    this.noResults.emit(false);
+  onSearch(): void {
+    const query = this.query.trim();
+    if (query) {
+      this.searchSubject.next(query);
+    }
   }
-   isMovie(item: TrendingItem): item is TrendingMovie {
-    return item.media_type === 'movie';
+
+  selectItem(item: SearchResult): void {
+    this.query = item.title || item.name || '';
+    this.showResults = false;
+    this.itemSelected.emit(item);
+    
+    // Navigate to the appropriate details page based on media type
+    if (item.media_type === 'movie') {
+      this.router.navigate(['/movies', item.id]);
+    } else if (item.media_type === 'tv') {
+      this.router.navigate(['/tv-shows', item.id]);
+    }
+  }
+
+  onBlur(): void {
+    // Small delay to allow click events to fire before hiding
+    setTimeout(() => {
+      this.showResults = false;
+    }, 100);
+  }
+
+  ngOnDestroy() {
+    this.searchSubscription?.unsubscribe();
+  }
+
+  onClick(event: MouseEvent) {
+    // Check if the click was outside the search container
+    if (this.showResults && 
+        this.searchContainer && 
+        !this.searchContainer.nativeElement.contains(event.target)) {
+      this.showResults = false;
+    }
   }
 }

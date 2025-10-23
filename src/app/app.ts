@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { TopNav } from './movie/components/top-nav/top-nav';
 import { MovieGrid } from './movie/components/movie-grid/movie-grid';
 import { Search } from "./movie/components/search/search";
+import { FooterInfo } from "./movie/components/footer-info/footer-info";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule, TopNav],
+  imports: [RouterOutlet, FormsModule, TopNav, FooterInfo],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

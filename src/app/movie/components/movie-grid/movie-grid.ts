@@ -2,42 +2,42 @@ import { Component, Input, inject } from '@angular/core';
 import { TrendingItem, TrendingMovie, TrendingTVShow } from '../../models/trending';
 import { FavoritesService } from '../../services/favorites';
 import { RouterLink } from '@angular/router';
+import { CommonModule, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-movie-grid',
   templateUrl: './movie-grid.html',
   styleUrl: './movie-grid.css',
-  imports: [RouterLink]
+  imports: [RouterLink, DatePipe, CommonModule]
 })
 export class MovieGrid {
   @Input() movies: TrendingItem[] = [];
   @Input() mediaType: 'all' | 'movie' | 'tv' = 'all';
-  @Input() title: string = 'Trending';
-  
+  @Input() title: string = '';
+
   favoritesService = inject(FavoritesService);
 
-  getFilteredItems(): TrendingItem[] {
-    if (this.mediaType === 'all') return this.movies;
-    return this.movies.filter(item => item.media_type === this.mediaType);
+  getPosterUrl(posterPath: string | null): string {
+    return posterPath 
+      ? `https://image.tmdb.org/t/p/w500${posterPath}`
+      : 'https://via.placeholder.com/500x750?text=No+Poster';
   }
 
-  isMovie(item: TrendingItem): item is TrendingMovie {
-    return item.media_type === 'movie';
+  getTitle(item: TrendingItem): string {
+    return (item as any).title || (item as any).name || 'Untitled';
   }
 
-  isTV(item: TrendingItem): item is TrendingTVShow {
-    return item.media_type === 'tv';
+  getReleaseDate(item: TrendingItem): string {
+    return (item as any).release_date || (item as any).first_air_date || 'N/A';
   }
 
-  toggleFavorite(item: TrendingItem): void {
-    if (this.favoritesService.isFavorite(item.id)) {
-      this.favoritesService.removeFromFavorites(item.id);
-    } else {
-      this.favoritesService.addToFavorites(item);
-    }
+  isMovie(item: TrendingItem): boolean {
+    return item.media_type === 'movie' ||
+           (this.mediaType === 'movie' && !('media_type' in item)) 
   }
 
-  isFavorite(id: number): boolean {
-    return this.favoritesService.isFavorite(id);
+  isTV(item: TrendingItem): boolean {
+    return item.media_type === 'tv' ||
+           (this.mediaType === 'tv' && !('media_type' in item)) 
   }
 }
