@@ -19,7 +19,9 @@ export class FavoritesService {
       this.favoritesSubject.next(JSON.parse(stored));
     }
   }
+  toggleFavorite(item: any): void {
 
+  }
   getFavorites(): Observable<TrendingItem[]> {
     return this.favoritesSubject.asObservable();
   }

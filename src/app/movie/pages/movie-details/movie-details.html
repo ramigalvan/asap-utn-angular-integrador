@@ -1,29 +1,100 @@
 @if (loading()) {
-  <section class="p-8 text-center"><p class="text-xl">Cargando detalles de la película...</p></section>
+  <section class="p-8 text-center">
+    <p class="text-xl">Cargando detalles de la película...</p>
+  </section>
+} @else if (error()) {
+  <section class="p-8 text-center text-red-400">
+    <p class="text-xl">{{ error() }}</p>
+  </section>
 } @else if (movie()) {
-  <section class="details-container p-8 max-w-4xl mx-auto bg-gray-900 text-white rounded-lg shadow-2xl mt-8">
+  <section class="details-container p-8 max-w-6xl mx-auto bg-gray-900 text-white rounded-lg shadow-2xl mt-8">
     <div class="md:flex gap-8">
+      <!-- Poster -->
       <div class="flex-shrink-0 mb-6 md:mb-0">
         <img
-          [src]="'https://image.tmdb.org/t/p/w500' + movie()!.poster_path"
-          [alt]="movie()!.title"
+          [src]="'https://image.tmdb.org/t/p/w500' + movie()?.poster_path"
+          [alt]="movie()?.title"
           class="w-full h-auto max-w-xs md:max-w-none rounded-lg shadow-xl object-cover"
+          onerror="this.src='https://via.placeholder.com/500x750?text=Poster+no+disponible'"
         />
       </div>
 
+      <!-- Detalles -->
       <div class="flex-grow">
-        <h1 class="text-5xl font-extrabold mb-4">{{ movie()!.title }}</h1>
-        <p class="text-xl text-gray-400 mb-6">
-          Película | Estreno: {{ movie()!.release_date }}
-        </p>
-        
-        <h2 class="text-2xl font-semibold mb-2 text-cyan-400">Sinopsis</h2>
-        <p class="text-lg mb-8 leading-relaxed">
-          {{ movie()!.overview }}
-        </p>
-
-        <div class="grid grid-cols-2 gap-4 text-lg">
+        <!-- Título y año -->
+        <div class="mb-4">
+          <h1 class="text-4xl md:text-5xl font-extrabold">{{ movie()?.title }}</h1>
+          <div class="flex items-center gap-2 text-gray-400 mt-2">
+            <span>{{ getReleaseYear() }}</span>
+            <span>•</span>
+            <span>{{ formatRuntime(movie()?.runtime) }}</span>
+            <span>•</span>
+            <span class="bg-cyan-600 text-white text-sm px-2 py-1 rounded">
+              {{ movie()?.vote_average?.toFixed(1) }}
+            </span>
           </div>
+        </div>
+
+        <!-- Géneros -->
+        @if (movie()?.genres && movie()!.genres.length > 0) {
+          <div class="flex flex-wrap gap-2 mb-6">
+            @for (genre of movie()!.genres; track genre.id) {
+              <span class="bg-gray-700 text-white text-sm px-3 py-1 rounded-full">
+                {{ genre.name }}
+              </span>
+            }
+          </div>
+        }
+        
+        <!-- Sinopsis -->
+        @if (movie()?.overview) {
+          <div class="mb-6">
+            <h2 class="text-2xl font-semibold mb-2 text-cyan-400">Sinopsis</h2>
+            <p class="text-gray-300 leading-relaxed">
+              {{ movie()?.overview }}
+            </p>
+          </div>
+        }
+
+        <!-- Información adicional -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300">
+          @if (movie()?.status) {
+            <div>
+              <h3 class="font-semibold text-cyan-400">Estado</h3>
+              <p>{{ movie()?.status }}</p>
+            </div>
+          }
+          
+          @if (movie()?.original_language) {
+            <div>
+              <h3 class="font-semibold text-cyan-400">Idioma original</h3>
+              <p>{{ movie()?.original_language | uppercase }}</p>
+            </div>
+          }
+          
+          @if (movie()?.budget !== undefined && movie()!.budget > 0) {
+            <div>
+              <h3 class="font-semibold text-cyan-400">Presupuesto</h3>
+              <p>{{ movie()!.budget | currency:'USD':'symbol':'1.0-0' }}</p>
+            </div>
+          }
+          
+          @if (movie()?.revenue !== undefined && movie()!.revenue > 0) {
+            <div>
+              <h3 class="font-semibold text-cyan-400">Ingresos</h3>
+              <p>{{ movie()!.revenue | currency:'USD':'symbol':'1.0-0' }}</p>
+            </div>
+          }
+          
+          @if (movie()?.homepage) {
+            <div class="md:col-span-2">
+              <h3 class="font-semibold text-cyan-400">Página web</h3>
+              <a [href]="movie()?.homepage" target="_blank" class="text-blue-400 hover:underline">
+                {{ movie()?.homepage }}
+              </a>
+            </div>
+          }
+        </div>
       </div>
     </div>
   </section>

@@ -1,50 +1,71 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { CommonModule, DatePipe } from '@angular/common';
+import { TVShowDetails } from '../../models/tv-show-details';
 import { MovieService } from '../../services/movie-service';
-import { TrendingTVShow } from '../../models/trending';
 
 @Component({
   selector: 'app-tv-show-details',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './tv-show-details.html',
-  styleUrl: './tv-show-details.css'
+  styleUrl: './tv-show-details.css',
+  standalone: true,
+  providers: [DatePipe]
 })
-export class TvShowDetails {
-private route = inject(ActivatedRoute);
+export class TvShowDetails implements OnInit {
+  private route = inject(ActivatedRoute);
   private movieService = inject(MovieService);
+  private location = inject(Location);
 
-  tvShow = signal<TrendingTVShow | undefined>(undefined);
+  tvShow = signal<TVShowDetails | undefined>(undefined);
   loading = signal(true);
-
-  // Constante para el media_type
-  private readonly mediaType = 'tv';
+  error = signal<string | null>(null);
 
   ngOnInit(): void {
-    // Obtiene el ID de la URL
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
     if (id) {
-      this.getDetails(id);
+      this.loadTvShowDetails(id);
     } else {
       console.error('ID de TV-SHOW no encontrado en la URL.');
+      this.error.set('ID de TV-SHOW no válido');
       this.loading.set(false);
     }
   }
 
-  getDetails(id: number): void {
+  formatRuntime(minutes: number | null | undefined): string {
+    if (!minutes) return 'N/A';
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}h ${mins}m`;
+  }
+
+  getReleaseYear(dateString: string): string {
+    return dateString ? new Date(dateString).getFullYear().toString() : 'N/A';
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
+
+  private loadTvShowDetails(id: number): void {
     this.loading.set(true);
-    // Llama al servicio, pasando el tipo 'tv'
-    this.movieService.getDetailsById(this.mediaType, id)
-      .subscribe({
-        next: (item) => {
-          // El resultado debe ser de tipo TrendingMovie
-          this.tvShow.set(item as TrendingTVShow);
-          this.loading.set(false);
-        },
-        error: (err) => {
-          console.error('Error al obtener detalles de la TV-SHOW:', err);
-          this.loading.set(false);
+    this.error.set(null);
+
+    this.movieService.getTvShowDetailsById(id).subscribe({
+      next: (show: TVShowDetails) => {
+        if (!show.id) {
+          this.error.set('No se encontraron detalles para esta serie.');
+          return;
         }
-      });
+        this.tvShow.set(show);
+      },
+      error: (err: any) => {
+        console.error('Error al cargar los detalles de la serie:', err);
+        this.error.set('Error al cargar los detalles de la serie. Por favor, inténtalo de nuevo más tarde.');
+      },
+      complete: () => this.loading.set(false)
+    });
   }
 }

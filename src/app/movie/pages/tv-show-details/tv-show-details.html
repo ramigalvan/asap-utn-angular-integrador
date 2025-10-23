@@ -1,35 +1,140 @@
 @if (loading()) {
-  <section class="p-8 text-center"><p class="text-xl">Cargando detalles de la película...</p></section>
+  <section class="p-8 text-center">
+    <p class="text-xl">Cargando detalles de la serie...</p>
+  </section>
+} @else if (error()) {
+  <section class="p-8 text-center">
+    <p class="text-xl text-red-500">{{ error() }}</p>
+    <div class="mt-4">
+      <a routerLink="/" class="text-cyan-400 hover:text-cyan-300 transition duration-150">← Volver al Home</a>
+    </div>
+  </section>
 } @else if (tvShow()) {
-  <section class="details-container p-8 max-w-4xl mx-auto bg-gray-900 text-white rounded-lg shadow-2xl mt-8">
+  <section class="details-container p-8 max-w-6xl mx-auto bg-gray-900 text-white rounded-lg shadow-2xl mt-8">
     <div class="md:flex gap-8">
+      <!-- Poster -->
       <div class="flex-shrink-0 mb-6 md:mb-0">
         <img
           [src]="'https://image.tmdb.org/t/p/w500' + tvShow()!.poster_path"
           [alt]="tvShow()!.name"
           class="w-full h-auto max-w-xs md:max-w-none rounded-lg shadow-xl object-cover"
+          onerror="this.src='https://via.placeholder.com/500x750?text=No+Image'"
         />
       </div>
 
+      <!-- Details -->
       <div class="flex-grow">
-        <h1 class="text-5xl font-extrabold mb-4">{{ tvShow()!.name }}</h1>
-        <p class="text-xl text-gray-400 mb-6">
-          Película | Estreno: {{ tvShow()!.first_air_date }}
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-2">{{ tvShow()!.name }}</h1>
+        
+        <!-- Tagline -->
+        @if (tvShow()!.tagline) {
+          <p class="text-xl text-cyan-400 italic mb-4">"{{ tvShow()!.tagline }}"</p>
+        }
+        
+        <!-- Basic Info -->
+        <div class="flex flex-wrap gap-4 text-gray-300 mb-6">
+          <span>{{ getReleaseYear(tvShow()!.first_air_date) }}</span>
+          <span>•</span>
+          <span>{{ tvShow()!.number_of_seasons }} Temporada{{ tvShow()!.number_of_seasons !== 1 ? 's' : '' }}</span>
+          <span>•</span>
+          <span>{{ tvShow()!.number_of_episodes }} Episodios</span>
+          <span>•</span>
+          <span>{{ tvShow()!.status }}</span>
+        </div>
+        
+        <!-- Genres -->
+        @if (tvShow()!.genres.length) {
+          <div class="flex flex-wrap gap-2 mb-6">
+            @for (genre of tvShow()!.genres; track genre.id) {
+              <span class="px-3 py-1 bg-gray-800 rounded-full text-sm">{{ genre.name }}</span>
+            }
+          </div>
+        }
+        
+        <!-- Overview -->
+        <h2 class="text-2xl font-semibold mb-2 text-cyan-400">Sinopsis</h2>
+        <p class="text-lg mb-6 leading-relaxed">
+          {{ tvShow()!.overview || 'No hay sinopsis disponible.' }}
         </p>
         
-        <h2 class="text-2xl font-semibold mb-2 text-cyan-400">Sinopsis</h2>
-        <p class="text-lg mb-8 leading-relaxed">
-          {{ tvShow()!.overview }}
-        </p>
-
-        <div class="grid grid-cols-2 gap-4 text-lg">
+        <!-- Additional Info -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+          <!-- Created By -->
+          @if (tvShow()!.created_by.length) {
+            <div>
+              <h3 class="text-xl font-semibold mb-2 text-cyan-400">Creado por</h3>
+              <div class="space-y-1">
+                @for (creator of tvShow()!.created_by; track creator.id) {
+                  <p>{{ creator.name }}</p>
+                }
+              </div>
+            </div>
+          }
+          
+          <!-- Networks -->
+          @if (tvShow()!.networks.length) {
+            <div>
+              <h3 class="text-xl font-semibold mb-2 text-cyan-400">Cadenas</h3>
+              <div class="flex flex-wrap gap-4 items-center">
+                @for (network of tvShow()!.networks; track network.id) {
+                  @if (network.logo_path) {
+                    <img 
+                      [src]="'https://image.tmdb.org/t/p/w92' + network.logo_path" 
+                      [alt]="network.name"
+                      class="h-8 object-contain"
+                    />
+                  } @else {
+                    <span>{{ network.name }}</span>
+                  }
+                }
+              </div>
+            </div>
+          }
+          
+          <!-- Last Episode -->
+          @if (tvShow()!.last_episode_to_air) {
+            <div>
+              <h3 class="text-xl font-semibold mb-2 text-cyan-400">Último Episodio</h3>
+              <p>
+                <span class="font-medium">{{ tvShow()!.last_episode_to_air.name }}</span>
+                (Temporada {{ tvShow()!.last_episode_to_air.season_number }}, Episodio {{ tvShow()!.last_episode_to_air.episode_number }})
+              </p>
+              <p class="text-sm text-gray-400">Emitido el: {{ tvShow()!.last_episode_to_air.air_date ? (tvShow()!.last_episode_to_air.air_date | date:'mediumDate') : 'Fecha no disponible' }}</p>
+            </div>
+          }
+          
+          <!-- Status -->
+          <div>
+            <h3 class="text-xl font-semibold mb-2 text-cyan-400">Estado</h3>
+            <p>{{ tvShow()!.status === 'Returning Series' ? 'En emisión' : 'Finalizada' }}</p>
+            @if (tvShow()!.status === 'Ended') {
+              <p class="text-sm text-gray-400">Finalizada en {{ getReleaseYear(tvShow()!.last_air_date) }}</p>
+            }
           </div>
+        </div>
       </div>
     </div>
   </section>
+  
+  <!-- Back Button -->
+  <div class="p-8 max-w-6xl mx-auto">
+    <button 
+      (click)="goBack()" 
+      class="flex items-center text-cyan-400 hover:text-cyan-300 transition duration-150"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+      </svg>
+      Volver al listado
+    </button>
+  </div>
 } @else {
-  <section class="p-8 text-center"><p class="text-xl text-red-500">No se encontraron detalles para esta película.</p></section>
+  <section class="p-8 text-center">
+    <p class="text-xl text-red-500">No se encontraron detalles para esta serie.</p>
+    <div class="mt-4">
+      <button (click)="goBack()" class="text-cyan-400 hover:text-cyan-300 transition duration-150">
+        ← Volver al listado
+      </button>
+    </div>
+  </section>
 }
-<div class="p-8 max-w-4xl mx-auto">
-    <a routerLink="/" class="text-cyan-400 hover:text-cyan-300 transition duration-150">← Volver al Home</a>
-</div>
