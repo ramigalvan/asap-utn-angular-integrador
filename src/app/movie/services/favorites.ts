@@ -19,9 +19,18 @@ export class FavoritesService {
       this.favoritesSubject.next(JSON.parse(stored));
     }
   }
-  toggleFavorite(item: any): void {
 
+
+  toggleFavorite(item: TrendingItem): void {
+    if (this.isFavorite(item.id)) {
+      // Si ya es favorito, lo eliminamos
+      this.removeFromFavorites(item.id);
+    } else {
+      // Si no es favorito, lo agregamos
+      this.addToFavorites(item);
+    }
   }
+
   getFavorites(): Observable<TrendingItem[]> {
     return this.favoritesSubject.asObservable();
   }
