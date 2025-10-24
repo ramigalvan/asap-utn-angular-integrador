@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, Output, OnDestroy, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnDestroy, OnInit, ViewChild, ElementRef, HostListener, Signal, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MovieService } from '../../services/movie-service';
 import { CommonModule, DatePipe } from '@angular/common';
-import { Subject,  distinctUntilChanged, Subscription, switchMap, of } from 'rxjs';
+import { Subject, distinctUntilChanged, Subscription, switchMap, of } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -17,6 +17,14 @@ export interface SearchResult {
   vote_average?: number;
 }
 
+interface SearchResponse {
+  results: SearchResult[];
+  page: number;
+  total_pages: number;
+  total_results: number;
+  query: string; // Para mantener el contexto de la búsqueda
+}
+
 @Component({
   selector: 'app-search',
   standalone: true,
@@ -25,26 +33,26 @@ export interface SearchResult {
   styleUrl: './search.css',
   providers: [DatePipe]
 })
-export class Search implements OnInit, OnDestroy   {
+export class Search implements OnInit, OnDestroy {
   @Input() searchType: 'all' | 'movie' | 'tv' = 'all';
   @Output() itemSelected = new EventEmitter<SearchResult>();
   @ViewChild('searchContainer') searchContainer!: ElementRef;
   @HostListener('document:click', ['$event'])
-
+  @Output() searchByEnter = new EventEmitter<SearchResponse>();
   query: string = '';
   searchResults: SearchResult[] = [];
-  showResults = false;
-  isLoading = false;
+  showResults = signal(false);
+  isLoading = signal(false);
 
 
-  
+
   private searchSubject = new Subject<string>();
   private searchSubscription?: Subscription;
 
   constructor(
     private movieService: MovieService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.searchSubscription = this.searchSubject.pipe(
@@ -54,10 +62,9 @@ export class Search implements OnInit, OnDestroy   {
         if (!query.trim()) {
           return of({ results: [] });
         }
-        this.isLoading = true;
+        this.isLoading.set(true);
         return this.movieService.searchMulti(query).pipe(
           map(response => {
-            // Transform the response to ensure consistent data structure
             return {
               results: response.results.map(item => ({
                 ...item,
@@ -67,11 +74,9 @@ export class Search implements OnInit, OnDestroy   {
             };
           })
         ).pipe(
-          // Handle errors
           map(response => response),
-          // Hide loading state when done
           map(response => {
-            this.isLoading = false;
+            this.isLoading.set(false);
             return response;
           })
         );
@@ -82,20 +87,23 @@ export class Search implements OnInit, OnDestroy   {
       },
       error: (error) => {
         console.error('Search error:', error);
-        this.isLoading = false;
+        this.isLoading.set(false);
         this.searchResults = [];
       }
     });
   }
 
+  @Output() searchCleared = new EventEmitter<void>();
+
   onSearchInput(): void {
     const query = this.query.trim();
     if (query) {
       this.searchSubject.next(query);
-      this.showResults = true;
+      this.showResults.set(true);
     } else {
       this.searchResults = [];
-      this.showResults = false;
+      this.showResults.set(false);
+      this.searchCleared.emit();
     }
   }
 
@@ -108,10 +116,9 @@ export class Search implements OnInit, OnDestroy   {
 
   selectItem(item: SearchResult): void {
     this.query = item.title || item.name || '';
-    this.showResults = false;
+    this.showResults.set(false);
     this.itemSelected.emit(item);
-    
-    // Navigate to the appropriate details page based on media type
+
     if (item.media_type === 'movie') {
       this.router.navigate(['/movies', item.id]);
     } else if (item.media_type === 'tv') {
@@ -120,9 +127,8 @@ export class Search implements OnInit, OnDestroy   {
   }
 
   onBlur(): void {
-    // Small delay to allow click events to fire before hiding
     setTimeout(() => {
-      this.showResults = false;
+      this.showResults.set(false);
     }, 100);
   }
 
@@ -131,11 +137,41 @@ export class Search implements OnInit, OnDestroy   {
   }
 
   onClick(event: MouseEvent) {
-    // Check if the click was outside the search container
-    if (this.showResults && 
-        this.searchContainer && 
-        !this.searchContainer.nativeElement.contains(event.target)) {
-      this.showResults = false;
+    if (this.showResults &&
+      this.searchContainer &&
+      !this.searchContainer.nativeElement.contains(event.target)) {
+      this.showResults.set(false);
+    }
+  }
+
+  onSearchByEnter() {
+    const query = this.query.trim();
+    if (query) {
+      this.isLoading.set(true);
+
+      // Utilizamos la página 1 para la primera búsqueda por Enter
+      this.movieService.searchMulti(query, 1).subscribe({
+        next: (response: any) => { 
+          const filteredResults = response.results.filter(
+            (item: any) => item.media_type === 'movie' || item.media_type === 'tv'
+          );
+
+          this.searchByEnter.emit({
+            results: filteredResults,
+            page: response.page,
+            total_pages: response.total_pages,
+            total_results: response.total_results,
+            query: query
+          });
+
+          this.showResults.set(false);
+          this.isLoading.set(false);
+        },
+        error: (error) => {
+          console.error('Search error:', error);
+          this.isLoading.set(false);
+        }
+      });
     }
   }
 }

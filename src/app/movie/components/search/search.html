@@ -1,61 +1,58 @@
-<!-- search.html -->
-<div class="search-container" #searchContainer>
-  <div class="relative">
+<div class="relative w-full max-w-xl mx-auto" #searchContainer> <div class="relative flex items-center">
     <input
       type="text"
       [(ngModel)]="query"
       (input)="onSearchInput()"
-      (focus)="showResults = true"
+      (keydown.enter)="onSearchByEnter()"
+      (focus)="showResults.set(true)"
       (blur)="onBlur()"
       placeholder="Search for movies or TV shows..."
-      class="search-input"
-    />
+      class="w-full py-2 pl-4 pr-32 border border-gray-300 rounded-lg text-base outline-none transition duration-300
+             focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+      />
+    
     <button
-      (click)="onSearch()"
-      [disabled]="isLoading"
-      class="search-button"
-    >
-    @if (!isLoading) {
-
-      <svg  class="search-icon" viewBox="0 0 24 24">
-        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-      </svg>
-    }
-    @if (isLoading) {
-
-      <svg  class="loading-icon" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-      </svg>
-    }
+      (click)="onSearchByEnter()"
+      [disabled]="isLoading()"
+      class="absolute right-1 top-1/2 transform -translate-y-1/2 cursor-pointer 
+             flex items-center justify-center h-10 px-4 ml-2 
+             bg-yellow-400 text-gray-800 font-semibold rounded-lg hover:bg-yellow-500 transition duration-150"
+      >
+      @if (!isLoading()) {
+        Buscar
+      }
+      @if (isLoading()) {
+        <svg class="h-5 w-5 animate-spin text-gray-800" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      }
     </button>
-
-    <!-- Results Dropdown -->
-    @if (showResults && query) {
-      <div class="results-dropdown">
-        @if (isLoading) {
-          <div class="loading-message">Searching...</div>
-        } @else if (searchResults.length > 0) {
-          <div class="results-list">
-            @for (item of searchResults; track item.id) {
-              <div 
-                class="result-item"
-                (mousedown)="selectItem(item)"
-              >
-                <div class="result-title">{{ item.title || item.name }}</div>
-                <div class="result-subtitle">
-                  {{ item.media_type === 'movie' ? 'Movie' : 'TV Show' }}
-                  @if (item.release_date || item.first_air_date) {
-                    - {{ (item.release_date || item.first_air_date) | date:'mediumDate' }}
-                  }
-                </div>
-              </div>
-            }
-          </div>
-        } @else if (query && !isLoading) {
-          <div class="no-results">No results found for "{{ query }}"</div>
-        }
-      </div>
-    }
   </div>
+
+  @if (showResults() && query) {
+    <div class="absolute w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg 
+                shadow-xl max-h-96 overflow-y-auto z-50">
+      @if (isLoading()) {
+        <div class="p-4 text-center text-gray-500 dark:text-gray-400 italic">Searching...</div> } @else if (searchResults.length > 0) {
+        <div class="py-1"> @for (item of searchResults; track item.id) {
+            <div 
+              class="px-4 py-2 cursor-pointer transition duration-200 
+                     hover:bg-gray-100 dark:hover:bg-gray-700"
+              (mousedown)="selectItem(item)"
+              > <div class="font-medium text-gray-900 dark:text-white mb-0.5"> {{ item.title || item.name }}
+              </div>
+              
+              <div class="text-xs text-gray-600 dark:text-gray-400"> {{ item.media_type === 'movie' ? 'Movie' : 'TV Show' }}
+                @if (item.release_date || item.first_air_date) {
+                  - {{ (item.release_date || item.first_air_date) | date:'mediumDate' }}
+                }
+              </div>
+            </div>
+          }
+        </div>
+      } @else if (query && !isLoading()) {
+        <div class="p-4 text-center text-gray-500 dark:text-gray-400 italic">No results found for "{{ query }}"</div> }
+    </div>
+  }
 </div>
