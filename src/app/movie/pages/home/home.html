@@ -1,54 +1,42 @@
 <div class="container mx-auto px-4 py-8">
 
-<!-- TODO: tipear algo en el app-search, luego mandar ese input a un service -->
-<app-search 
-  searchType="all" 
-  class="mb-8"
-  
-/>
+  <app-search searchType="all" class="mb-8" (searchByEnter)="onSearchByEnter($event)"
+    (itemSelected)="onSearch($event.title || $event.name || '')" (searchCleared)="onSearchCleared()" />
 
   @if (isLoading()) {
-    <div class="flex justify-center items-center h-64">
-      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-    </div>
+  <div class="flex justify-center items-center h-64">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+  </div>
+  } @else if (error()) {
+  <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
+    <p class="font-bold">Error</p>
+    <p>{{ error() }}</p>
+  </div>
+  } @else {
+  @if (showSearchResults()) {
+  <app-movie-search-list [results]="searchResults()" [query]="searchQuery()" />
+  } @else {
+  <app-movie-grid [movies]="movies()" [mediaType]="'all'" title="Trending Movies & TV-Shows" />
   }
-  @if (error()) {
-    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
-      <p class="font-bold">Error</p>
-      <p>{{ error() }}</p>
-    </div>
-  }
-  @if (!isLoading() && !error()) {
-    <app-movie-grid 
-      [movies]="movies()"
-      [mediaType]="'all'"
-      title="Trending Movies & TV-Shows"
-    />
 
-    @if (totalPages() > 1) {
-      <div class="flex justify-center mt-8">
-        <div class="flex items-center gap-2">
-          <button 
-            (click)="onPageChange(currentPage() - 1)"
-            [disabled]="currentPage() === 1"
-            class="px-4 py-2 rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Previous
-          </button>
-          
-          <span class="px-4 py-2">
-            Page {{ currentPage() }} of {{ totalPages() }}
-          </span>
-          
-          <button 
-            (click)="onPageChange(currentPage() + 1)"
-            [disabled]="currentPage() === totalPages()"
-            class="px-4 py-2 rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Next
-          </button>
-        </div>
-      </div>
-    }
+  @if (totalPages() > 1) {
+  <div class="flex justify-center mt-8">
+    <div class="flex items-center gap-2">
+      <button (click)="onPageChange(currentPage() - 1)" [disabled]="currentPage() === 1"
+        class="px-4 py-2 rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+        Previous
+      </button>
+
+      <span class="px-4 py-2">
+        Page {{ currentPage() }} of {{ totalPages() }}
+      </span>
+
+      <button (click)="onPageChange(currentPage() + 1)" [disabled]="currentPage() === totalPages()"
+        class="px-4 py-2 rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+        Next
+      </button>
+    </div>
+  </div>
+  }
   }
 </div>
