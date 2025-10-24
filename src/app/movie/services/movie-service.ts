@@ -82,6 +82,26 @@ export class MovieService {
     );
   }
 
+  searchMovie(query: string, page: number = 1): Observable<{ results: any[] }> {
+    const url = `${this.apiUrl}/search/movie?query=${encodeURIComponent(query)}&include_adult=false&page=${page}`;
+    return this.http.get<{ results: any[] }>(url, { headers: this.getHeaders() }).pipe(
+      map(response => ({
+        ...response,
+        results: response.results.filter(item => item.media_type === 'movie')
+      }))
+    );
+  }
+
+  searchTvShow(query: string, page: number = 1): Observable<{ results: any[] }> {
+    const url = `${this.apiUrl}/search/tv?query=${encodeURIComponent(query)}&include_adult=false&page=${page}`;
+    return this.http.get<{ results: any[] }>(url, { headers: this.getHeaders() }).pipe(
+      map(response => ({
+        ...response,
+        results: response.results.filter(item => item.media_type === 'movie' || item.media_type === 'tv')
+      }))
+    );
+  }
+
   /**
    * Obtiene los detalles de una película por su ID
    * @param id ID de la película
