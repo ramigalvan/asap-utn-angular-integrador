@@ -147,11 +147,17 @@ export class Search implements OnInit, OnDestroy {
   onSearchByEnter() {
     const query = this.query.trim();
     if (query) {
+
+      this.searchSubject.next('');
+      this.searchResults = [];
+
       this.isLoading.set(true);
+
+
 
       // Utilizamos la página 1 para la primera búsqueda por Enter
       this.movieService.searchMulti(query, 1).subscribe({
-        next: (response: any) => { 
+        next: (response: any) => {
           const filteredResults = response.results.filter(
             (item: any) => item.media_type === 'movie' || item.media_type === 'tv'
           );
